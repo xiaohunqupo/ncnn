@@ -15,7 +15,6 @@
 #include "softmax_x86.h"
 
 #include <float.h>
-#include <math.h>
 
 #if __SSE2__
 #include <emmintrin.h>
@@ -125,7 +124,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
                     __m512 _pd = _mm512_load_ps(ptr + 16 * 13);
                     __m512 _pe = _mm512_load_ps(ptr + 16 * 14);
                     __m512 _pf = _mm512_load_ps(ptr + 16 * 15);
-                    transpose16_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8, _p9, _pa, _pb, _pc, _pd, _pe, _pf);
+                    transpose16x16_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8, _p9, _pa, _pb, _pc, _pd, _pe, _pf);
                     __m512 _max01 = _mm512_max_ps(_p0, _p1);
                     __m512 _max23 = _mm512_max_ps(_p2, _p3);
                     __m512 _max45 = _mm512_max_ps(_p4, _p5);
@@ -219,7 +218,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
                     _mm512_store_ps(ptr + 16 * 13, _pd);
                     _mm512_store_ps(ptr + 16 * 14, _pe);
                     _mm512_store_ps(ptr + 16 * 15, _pf);
-                    transpose16_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8, _p9, _pa, _pb, _pc, _pd, _pe, _pf);
+                    transpose16x16_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8, _p9, _pa, _pb, _pc, _pd, _pe, _pf);
                     __m512 _sum01 = _mm512_add_ps(_p0, _p1);
                     __m512 _sum23 = _mm512_add_ps(_p2, _p3);
                     __m512 _sum45 = _mm512_add_ps(_p4, _p5);
@@ -341,7 +340,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
                     __m512 _pd = _mm512_load_ps(ptr + 16 * 13);
                     __m512 _pe = _mm512_load_ps(ptr + 16 * 14);
                     __m512 _pf = _mm512_load_ps(ptr + 16 * 15);
-                    transpose16_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8, _p9, _pa, _pb, _pc, _pd, _pe, _pf);
+                    transpose16x16_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8, _p9, _pa, _pb, _pc, _pd, _pe, _pf);
                     __m512 _max01 = _mm512_max_ps(_p0, _p1);
                     __m512 _max23 = _mm512_max_ps(_p2, _p3);
                     __m512 _max45 = _mm512_max_ps(_p4, _p5);
@@ -435,7 +434,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
                     _mm512_store_ps(ptr + 16 * 13, _pd);
                     _mm512_store_ps(ptr + 16 * 14, _pe);
                     _mm512_store_ps(ptr + 16 * 15, _pf);
-                    transpose16_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8, _p9, _pa, _pb, _pc, _pd, _pe, _pf);
+                    transpose16x16_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8, _p9, _pa, _pb, _pc, _pd, _pe, _pf);
                     __m512 _sum01 = _mm512_add_ps(_p0, _p1);
                     __m512 _sum23 = _mm512_add_ps(_p2, _p3);
                     __m512 _sum45 = _mm512_add_ps(_p4, _p5);
@@ -687,7 +686,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
                     __m256 _p5 = _mm256_load_ps(ptr + 8 * 5);
                     __m256 _p6 = _mm256_load_ps(ptr + 8 * 6);
                     __m256 _p7 = _mm256_load_ps(ptr + 8 * 7);
-                    transpose8_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7);
+                    transpose8x8_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7);
                     __m256 _max01 = _mm256_max_ps(_p0, _p1);
                     __m256 _max23 = _mm256_max_ps(_p2, _p3);
                     __m256 _max45 = _mm256_max_ps(_p4, _p5);
@@ -749,7 +748,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
                     _mm256_store_ps(ptr + 8 * 5, _p5);
                     _mm256_store_ps(ptr + 8 * 6, _p6);
                     _mm256_store_ps(ptr + 8 * 7, _p7);
-                    transpose8_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7);
+                    transpose8x8_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7);
                     __m256 _sum01 = _mm256_add_ps(_p0, _p1);
                     __m256 _sum23 = _mm256_add_ps(_p2, _p3);
                     __m256 _sum45 = _mm256_add_ps(_p4, _p5);
@@ -855,7 +854,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
                     __m256 _p5 = _mm256_load_ps(ptr + 8 * 5);
                     __m256 _p6 = _mm256_load_ps(ptr + 8 * 6);
                     __m256 _p7 = _mm256_load_ps(ptr + 8 * 7);
-                    transpose8_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7);
+                    transpose8x8_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7);
                     __m256 _max01 = _mm256_max_ps(_p0, _p1);
                     __m256 _max23 = _mm256_max_ps(_p2, _p3);
                     __m256 _max45 = _mm256_max_ps(_p4, _p5);
@@ -917,7 +916,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
                     _mm256_store_ps(ptr + 8 * 5, _p5);
                     _mm256_store_ps(ptr + 8 * 6, _p6);
                     _mm256_store_ps(ptr + 8 * 7, _p7);
-                    transpose8_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7);
+                    transpose8x8_ps(_p0, _p1, _p2, _p3, _p4, _p5, _p6, _p7);
                     __m256 _sum01 = _mm256_add_ps(_p0, _p1);
                     __m256 _sum23 = _mm256_add_ps(_p2, _p3);
                     __m256 _sum45 = _mm256_add_ps(_p4, _p5);
@@ -1611,7 +1610,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
 #endif // __SSE2__
             for (; i < w; i++)
             {
-                ptr[i] = (float)(exp(ptr[i] - max));
+                ptr[i] = expf(ptr[i] - max);
                 sum += ptr[i];
             }
         }
@@ -1777,7 +1776,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
 #endif // __SSE2__
             for (; j < w; j++)
             {
-                *ptr = (float)(exp(*ptr - *pmax));
+                *ptr = expf(*ptr - *pmax);
                 *psum += *ptr;
 
                 ptr++;
@@ -1925,7 +1924,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
 #endif // __SSE2__
                 for (; j < w; j++)
                 {
-                    ptr[j] = (float)(exp(ptr[j] - max));
+                    ptr[j] = expf(ptr[j] - max);
                     sum += ptr[j];
                 }
             }
@@ -2075,7 +2074,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
 #endif // __SSE2__
             for (; i < size; i++)
             {
-                *ptr = exp(*ptr - *maxptr);
+                *ptr = expf(*ptr - *maxptr);
 
                 ptr++;
                 maxptr++;
@@ -2302,7 +2301,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
 #endif // __SSE2__
                 for (; j < w; j++)
                 {
-                    ptr[j] = (float)(exp(ptr[j] - maxptr[j]));
+                    ptr[j] = expf(ptr[j] - maxptr[j]);
                     sumptr[j] += ptr[j];
                 }
 
@@ -2446,7 +2445,7 @@ int Softmax_x86::forward_inplace(Mat& bottom_top_blob, const Option& opt) const
 #endif // __SSE2__
                     for (; j < w; j++)
                     {
-                        ptr[j] = static_cast<float>(exp(ptr[j] - max));
+                        ptr[j] = expf(ptr[j] - max);
                         sum += ptr[j];
                     }
                 }

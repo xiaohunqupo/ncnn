@@ -15,8 +15,6 @@
 
 #include "quantize_arm.h"
 
-#include <math.h>
-
 #if __ARM_NEON
 #include <arm_neon.h>
 #endif // __ARM_NEON
@@ -588,8 +586,8 @@ int Quantize_arm::forward_bf16s(const Mat& bottom_blob, Mat& top_blob, const Opt
 
                         for (int j = 0; j < w; j++)
                         {
-                            float32x4_t _vlow = float2bfloat(vld1_u16(ptr0));
-                            float32x4_t _vhigh = float2bfloat(vld1_u16(ptr1));
+                            float32x4_t _vlow = bfloat2float(vld1_u16(ptr0));
+                            float32x4_t _vhigh = bfloat2float(vld1_u16(ptr1));
                             _vlow = vmulq_f32(_vlow, _scale);
                             _vhigh = vmulq_f32(_vhigh, _scale);
                             int8x8_t _v = float2int8(_vlow, _vhigh);
@@ -615,8 +613,8 @@ int Quantize_arm::forward_bf16s(const Mat& bottom_blob, Mat& top_blob, const Opt
 
                         for (int j = 0; j < w; j++)
                         {
-                            float32x4_t _vlow = float2bfloat(vld1_u16(ptr0));
-                            float32x4_t _vhigh = float2bfloat(vld1_u16(ptr1));
+                            float32x4_t _vlow = bfloat2float(vld1_u16(ptr0));
+                            float32x4_t _vhigh = bfloat2float(vld1_u16(ptr1));
                             _vlow = vmulq_f32(_vlow, _scale0);
                             _vhigh = vmulq_f32(_vhigh, _scale1);
                             int8x8_t _v = float2int8(_vlow, _vhigh);
@@ -721,8 +719,8 @@ int Quantize_arm::forward_bf16s(const Mat& bottom_blob, Mat& top_blob, const Opt
 
                         for (int i = 0; i < size; i++)
                         {
-                            float32x4_t _vlow = float2bfloat(vld1_u16(ptr0));
-                            float32x4_t _vhigh = float2bfloat(vld1_u16(ptr1));
+                            float32x4_t _vlow = bfloat2float(vld1_u16(ptr0));
+                            float32x4_t _vhigh = bfloat2float(vld1_u16(ptr1));
                             _vlow = vmulq_f32(_vlow, _scale);
                             _vhigh = vmulq_f32(_vhigh, _scale);
                             int8x8_t _v = float2int8(_vlow, _vhigh);
@@ -748,8 +746,8 @@ int Quantize_arm::forward_bf16s(const Mat& bottom_blob, Mat& top_blob, const Opt
 
                         for (int i = 0; i < size; i++)
                         {
-                            float32x4_t _vlow = float2bfloat(vld1_u16(ptr0));
-                            float32x4_t _vhigh = float2bfloat(vld1_u16(ptr1));
+                            float32x4_t _vlow = bfloat2float(vld1_u16(ptr0));
+                            float32x4_t _vhigh = bfloat2float(vld1_u16(ptr1));
                             _vlow = vmulq_f32(_vlow, _scale0);
                             _vhigh = vmulq_f32(_vhigh, _scale1);
                             int8x8_t _v = float2int8(_vlow, _vhigh);
